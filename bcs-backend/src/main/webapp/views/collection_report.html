@@ -1,0 +1,98 @@
+
+<ng-include src=" 'views/navigation.html' "></ng-include>
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-primary">
+
+                <div class="panel-heading">
+                    <i class="fa fa-money fa-2x"></i>
+                    Enter Dates (Collections)
+                </div>
+
+                <div class="panel-body">
+                    <form role="form" id="collectionReportForm" name="collectionReportForm" class="form-horizontal alert" novalidate>
+                        <div class= "form-group">												
+                            <label class="col-md-2"> Start Date </label>
+                                    <div class="col-md-5 input-group date">
+                                <input id="datetimepickerStart" name="datetimepickerStart" ng-model="startDate"
+                                       type= "text" class= "form-control text-uppercase" 
+                                       data-date-picker readonly="true"
+                                       placeholder= "YYYY-MM-DD" required />
+                                <span class="input-group-addon">
+                                    <span class="fa fa-calendar"></span>
+                                </span>
+                            </div>
+                            
+                        </div>    
+                        <div class= "form-group">
+                            <label class="col-md-2"> End Date </label>
+                            <div class="col-md-5 input-group date">
+                                <input id="datetimepickerEnd" name="datetimepickerEnd" ng-model="endDate"
+                                       type= "text" class= "form-control text-uppercase" 
+                                       data-date-picker readonly="true"
+                                       placeholder= "YYYY-MM-DD" required />
+                                <span class="input-group-addon">
+                                    <span class="fa fa-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <hr/>
+                        <div class= "form-group">								
+                            <div class= "col-md-12">
+                                <button ng-click="showCollectionListing()" ng-disabled="collectionReportForm.$invalid" class="btn btn-primary">Show</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>    
+            </div>
+        </div>
+        <br/>
+    </div>
+    <!-- /.row -->
+
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <i class="fa fa-money fa-2x"></i>
+                    Collections Listing                    
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <table width="100%" class="table table-responsive table-striped table-bordered table-hover" id="collectionReportTable">
+                        <thead>
+                            <tr>
+                                <th>Arrival Date Time</th> 
+                                <th>Plate No.</th>                                
+                                <th>Bus Company</th>
+                                <th>Origin Destination</th>                                
+                                <th>TP No.</th>
+                                <th>Assessed Fees</th>
+                                <th>Assessor</th>
+                                <th>Receipt No.</th>
+                                <th>Receipt Amount</th>
+                                <th>Collector</th>                                
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>							
+                        </tbody>
+
+                    </table>
+                    <!-- /.table-responsive -->
+
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+
+
+</div>

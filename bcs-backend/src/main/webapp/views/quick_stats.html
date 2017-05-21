@@ -1,0 +1,150 @@
+
+<ng-include src=" 'views/navigation.html' "></ng-include>
+
+<div class="container">
+
+    <div class="row">
+        <h4 class="page-header">Quick Stats {{rightNow}}</h3>
+        <div class="text-right">
+            <button ng-click="refresh()" type="button" class="btn btn-primary">				
+                <i> Refresh </i><i class="fa fa-refresh "></i> 
+            </button>
+        </div>
+        
+    </div>
+
+    <div class="row">
+
+        <div class="col-sm-3">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-info-circle fa-4x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge">{{statsArrival}}</div>                            
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div>Arrival Count</div>
+                    <div class="clearfix"></div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-3">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-info-circle fa-4x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge">{{statsDeparture}}</div>                            
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div>Departure Count</div>
+                    <div class="clearfix"></div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-3">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-info-circle fa-4x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge">{{statsStillInside}}</div>                            
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div>Vehicles Still Inside</div>
+                    <div class="clearfix"></div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <!-- /.row -->
+
+    <div class="row">
+        <div class="col-xs-6">
+            Hourly Arrival
+            <canvas id="barArrival" 
+                    class="chart chart-bar"
+                    chart-options="options"
+                    chart-data="dataArrival" 
+                    chart-labels="labelsArrival" 
+                    chart-series="seriesArrival" >
+            </canvas>
+        </div>
+        <div class="col-xs-6">
+            Hourly Departure
+            <canvas id="barDeparture" 
+                    class="chart chart-bar"
+                    chart-options="options"
+                    chart-data="dataDeparture" 
+                    chart-labels="labelsDeparture" 
+                    chart-series="seriesDeparture" >
+            </canvas>
+        </div>
+    </div>
+    <!-- /.row -->
+
+
+    <div class="row">
+
+        <div class="col-sm-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-money fa-4x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge">{{statsAssessment}}</div>
+                            <div>Php</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div>Estimated Assessment</div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-money fa-4x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge">{{statsCollection}}</div>
+                            <div>Php</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div>Estimated Collection</div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,265 @@
+
+<ng-include src=" 'views/navigation.html' "></ng-include>
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-xs-12">
+            <h1 class="page-header">Bus Operations</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+
+    <div class="row">
+
+        <div class="col-sm-2">
+            <div class="panel panel-green" >
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-flag fa-2x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">                                    
+                            <strong>Arrive</strong>
+                        </div>
+                    </div>
+                </div>
+                <a href="#!/arrival">
+                    <div class="panel-footer">
+                        <span class="pull-left">Record Arrivals</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-sm-2">
+            <div class="panel panel-yellow">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-tasks fa-2x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <strong>Assess</strong>
+                        </div>
+                    </div>
+                </div>
+                <a href="#!/assessment">
+                    <div class="panel-footer">
+                        <span class="pull-left">Compute Fees</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-sm-2">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-money fa-2x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <strong>Collect</strong>
+                        </div>
+                    </div>
+                </div>
+                <a href="#!/bus_payment">
+                    <div class="panel-footer">
+                        <span class="pull-left">Record Payments</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-sm-2">
+            <div class="panel panel-green">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-thumbs-o-up fa-2x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <strong>Approve</strong>
+                        </div>
+                    </div>
+                </div>
+                <a href="#!/approve">
+                    <div class="panel-footer">
+                        <span class="pull-left">Review & Approval</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-sm-2">
+            <div class="panel panel-red">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-flag-checkered fa-2x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <strong>Depart</strong>
+                        </div>
+                    </div>
+                </div>
+                <a href="#!/departure">
+                    <div class="panel-footer">
+                        <span class="pull-left">Record Departures</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        
+        <div class="col-sm-2">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-bar-chart-o fa-2x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <strong>Quick Stats</strong>
+                        </div>
+                    </div>
+                </div>
+                <a href="#!/quick_stats">
+                    <div class="panel-footer">
+                        <span class="pull-left">Quick Stats</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-truck fa-2x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <strong>Bus</strong>
+                        </div>
+                    </div>
+                </div>
+                <a href="#!/vehicle">
+                    <div class="panel-footer">
+                        <span class="pull-left">Vehicle Registry</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2">
+            <div class="panel panel-green">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-print fa-2x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <strong>Arrival Report</strong>
+                        </div>
+                    </div>
+                </div>
+                <a href="#!/arrival_report">
+                    <div class="panel-footer">
+                        <span class="pull-left">Arrival Listing</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-sm-2">
+            <div class="panel panel-red">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-print fa-2x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <strong>Departure Report</strong>
+                        </div>
+                    </div>
+                </div>
+                <a href="#!/departure_report">
+                    <div class="panel-footer">
+                        <span class="pull-left">Departure Listing</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-sm-2">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-print fa-2x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <strong>Collection Report</strong>
+                        </div>
+                    </div>
+                </div>
+                <a href="#!/collection_report">
+                    <div class="panel-footer">
+                        <span class="pull-left">Collection Listing</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-sm-2">
+            <div class="panel panel-green">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-file-excel-o fa-2x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <strong>Management Reports</strong>
+                        </div>
+                    </div>
+                </div>
+                <a href="#!/management_report">
+                    <div class="panel-footer">
+                        <span class="pull-left">Detailed Reports</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        
+    </div>
+    <!-- /.row -->
+
+
+</div>

@@ -1,0 +1,8 @@
+{
+  "realm": "Bcs-Realm",
+  "realm-public-key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA4nVg3ovaJ1VS7HFo6VYir5xZXpIqTBROKdZwM6+2jrUfhxSnmI6kgnwcop8d7hym/amXe9/YzkVU7csVKv1rniuBrnMuSPRF1wqccKz+pjeNGDyCb7StjIXFEFEkuKnscs4RTiLjgnFIDqawkLuPyT1GMW+xPSVgRE2wwdF1HQLm59QXcjdG7KSqPBuO07PhvtVP4BrXVf9xbHkJ1K0iZSzRSWR+Vy0fD6GVwTQ2z++HHCdY0JCjLqs/LFSfLUCSFoZAz5pBZPiZjAdP3p7U5k7OUlvm8w1LdWWlQLNAVVbahX0VmQcVCMBMyZBDuCa2s0+hdSVU4wjnEa6/5r6hRwIDAQAB",
+  "auth-server-url": "http://localhost:8080/auth",
+  "ssl-required": "external",
+  "resource": "bcs-web",
+  "public-client": true
+}
