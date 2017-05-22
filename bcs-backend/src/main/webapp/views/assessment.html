@@ -47,6 +47,7 @@
                                     <div class="col-md-4">
                                         <input name="arrivalOrigin" ng-model="tpModel.arrivalOrigin"
                                                type= "text" class= "form-control text-uppercase" data-uppercased 
+                                               uib-typeahead="location for location in locations | filter:$viewValue"
                                                placeholder= "ARRIVAL ORIGIN" />
                                     </div>
                                 </div>
@@ -55,6 +56,7 @@
                                     <div class="col-md-4">
                                         <input name="arrivalDestination" ng-model="tpModel.arrivalDestination"
                                                type= "text" class= "form-control text-uppercase" data-uppercased
+                                               uib-typeahead="location for location in locations | filter:$viewValue"
                                                placeholder= "ARRIVAL DESTINATION" />
                                     </div>
                                 </div>
@@ -229,6 +231,7 @@
                                     <div class="col-md-4">
                                         <input ng-model="tpModel.tripOrigin" type= "text" 
                                                class="form-control text-uppercase" data-uppercased
+                                               uib-typeahead="location for location in locations | filter:$viewValue"
                                                placeholder= "TRIP ORIGIN" required/>
                                     </div>										
                                 </div>
@@ -237,6 +240,7 @@
                                     <div class= "col-md-4">
                                         <input ng-model="tpModel.tripDestination" type= "text" 
                                                class="form-control text-uppercase" data-uppercased
+                                               uib-typeahead="location for location in locations | filter:$viewValue"
                                                placeholder= "TRIP DESTINATION" required/>
                                     </div>
                                 </div>
@@ -321,9 +325,6 @@
                 </div>
                 <!-- foot -->
             </div>
-
-
-
         </div>	
     </div>
     <!-- /.row -->
@@ -351,7 +352,8 @@
                                 <th>Arrival Date Time</th>
                                 <th>Bus Company</th>
                                 <th>Origin</th>
-                                <th>Destination</th>								
+                                <th>Destination</th>
+                                <th>Fees</th>                                
                                 <th>Assessor</th>
                                 <th>Status</th>
 

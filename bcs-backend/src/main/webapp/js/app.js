@@ -76,7 +76,7 @@ app.factory('httpInterceptor', function ($q) {
                     .error(function () {
                         console.log('Failed to refresh token.');
                         //reload page
-                        window.location.reload();
+                        window.location.reload(true);
                     });
 
             var token = window._keycloak.token;
@@ -217,7 +217,7 @@ app.run(function ($rootScope, $http) {
                 console.log("Config loaded.");
             }, function (response) {
                 console.log("Unable to fetch config!!!");
-                //window.location.reload();
+                //window.location.reload(true);
             });
 });
 
@@ -241,11 +241,11 @@ angular.element(document).ready(function () {
                     });
                 }
                 else {
-                    window.location.reload();
+                    window.location.reload(true);
                 }
             })
             .error(function () {
-                window.location.reload();
+                window.location.reload(true);
             });
 
 });

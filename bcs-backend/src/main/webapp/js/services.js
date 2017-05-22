@@ -197,7 +197,7 @@ app.factory('authorizationService', ['$window', function ($window) {
         ;
 
         function isArrivalOperator() {
-            return _keycloak.hasRealmRole('arival_operator');
+            return _keycloak.hasRealmRole('arrival_operator');
         }
         ;
 
@@ -212,7 +212,7 @@ app.factory('authorizationService', ['$window', function ($window) {
         ;
 
         function isCollector() {
-            _keycloak.hasRealmRole('collector');
+            return _keycloak.hasRealmRole('collector');
         }
         ;
 
@@ -221,32 +221,28 @@ app.factory('authorizationService', ['$window', function ($window) {
         obj._keycloak = _keycloak;
 
         obj.canArrival = function () {
-            return isAdmin() || isManager() || isArrivalOperator();
+            return (isAdmin() || isManager() || isArrivalOperator());
         }
         ;
 
         obj.canDeparture = function () {
-            return isAdmin() || isManager() || isDepartureOperator();
+            return (isAdmin() || isManager() || isDepartureOperator());
         }
         ;
 
         obj.canCollection = function () {
-            return isAdmin() || isCollector();
+            return (isAdmin() || isCollector());
         }
         ;
 
         obj.canRouteCheck = function () {
-            return isAdmin() || isManager() || isRouteChecker();
+            return (isAdmin() || isManager() || isRouteChecker());
         }
         ;
 
         obj.canApproval = function () {
-            return isAdmin() || isManager();
-        }
-        ;
-
-        obj.canReport = function () {
-            return true;
+            //for managers only
+            return (isAdmin() || isManager());
         }
         ;
 

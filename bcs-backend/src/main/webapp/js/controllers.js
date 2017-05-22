@@ -33,7 +33,17 @@ app.controller('AuthorizationCtrl', function ($scope, authorizationService) {
 app.controller('MainCtrl', ['$rootScope', '$scope', '$http', '$window', '$timeout', 'authorizationService',
     function ($rootScope, $scope, $http, $window, $timeout, authorizationService) {
 
-        // nothing here for now
+        $scope.canArrival = authorizationService.canArrival();
+
+        $scope.canRouteCheck = authorizationService.canRouteCheck();
+
+        $scope.canCollection = authorizationService.canCollection();
+
+        $scope.canApproval = authorizationService.canApproval();
+
+        $scope.canDeparture = authorizationService.canDeparture();
+
+        
     }
 ]);
 
@@ -41,12 +51,7 @@ app.controller('MainCtrl', ['$rootScope', '$scope', '$http', '$window', '$timeou
 app.controller('ArrivalCtrl', function ($rootScope, $scope, $http, $window, $filter,
         authorizationService, arrivalService, vehicleRegistryService, appconfigService) {
 
-    $scope.canArrival = function () {
-        return authorizationService.canArrival();
-
-    };
-
-    if (!$scope.canArrival()) {
+    if (!authorizationService.canArrival()) {
         swal("Error", "You are not allowed to this service!", "error");
         $window.location.replace("index.html");
     }
@@ -231,16 +236,16 @@ app.controller('ArrivalCtrl', function ($rootScope, $scope, $http, $window, $fil
 app.controller('AssessmentCtrl', function ($rootScope, $scope, $http, $window, $filter, $compile,
         authorizationService, assessmentService, appconfigService) {
 
-    $scope.canRouteCheck = function () {
-        return authorizationService.canRouteCheck();
-    };
 
-    if (!$scope.canRouteCheck()) {
+
+    if (!authorizationService.canRouteCheck()) {
         swal("Error", "You are not allowed to this service!", "error");
         $window.location.replace("index.html");
     }
     ;
 
+    //for typeahead
+    $scope.locations = appconfigService.config.origin_destination;
     //set-up
     hideEditPanel();
     initAssessmentDataTable();
@@ -518,7 +523,12 @@ app.controller('AssessmentCtrl', function ($rootScope, $scope, $http, $window, $
             if ((item.terminalPass.status === "PAID" || item.terminalPass.status === "APPROVED")) {
                 control = "";
             }
-            //9 columns
+
+            var assessedFees = item.terminalPass.tripTerminalFee + item.terminalPass.tripParkingFee +
+                    item.terminalPass.tripDispatcherFee
+            var fees = assessedFees || "FREE";
+
+            //10 columns
             $scope.datatable.row.add([
                 item.terminalPass.id,
                 item.terminalPass.plateNumber,
@@ -528,6 +538,7 @@ app.controller('AssessmentCtrl', function ($rootScope, $scope, $http, $window, $
                 '<small>' + item.terminalPass.busCompany + " " + (item.terminalPass.bodyNumber || "") + '</small>',
                 item.terminalPass.tripOrigin || "UNASSIGNED",
                 item.terminalPass.tripDestination || "UNASSIGNED",
+                fees,
                 item.terminalPass.tripAssessor || "-",
                 item.terminalPass.status,
             ]);
@@ -569,11 +580,8 @@ app.controller('AssessmentCtrl', function ($rootScope, $scope, $http, $window, $
 app.controller('VehicleCtrl', function ($rootScope, $scope, $http, $window, $filter, $compile,
         authorizationService, vehicleRegistryService, appconfigService) {
 
-    $scope.canApproval = function () {
-        return authorizationService.canApproval();
-    };
 
-    if (!$scope.canApproval()) {
+    if (!authorizationService.canApproval()) {
         swal("Error", "You are not allowed to this service!", "error");
         $window.location.replace("index.html");
     }
@@ -773,10 +781,8 @@ app.controller('VehicleCtrl', function ($rootScope, $scope, $http, $window, $fil
 app.controller('BusPaymentCtrl', function ($rootScope, $scope, $http, $window, $filter, $compile,
         authorizationService, busPaymentService, appconfigService, etracsPaymentService) {
 
-    $scope.canCollection = function () {
-        return authorizationService.canCollection();
-    };
-    if (!$scope.canCollection()) {
+
+    if (!authorizationService.canCollection()) {
         swal("Error", "You are not allowed to this service!", "error");
         $window.location.replace("index.html");
     }
@@ -1057,7 +1063,7 @@ app.controller('BusPaymentCtrl', function ($rootScope, $scope, $http, $window, $
 
             var receiptNumber = item.terminalPass.receiptNumber;
             var terminalPassId = item.terminalPass.id;
-            
+
             var btn_color = 'btn-info';
             if (item.terminalPass.status === 'PAID') {
                 btn_color = 'btn-success';
@@ -1118,10 +1124,7 @@ app.controller('BusPaymentCtrl', function ($rootScope, $scope, $http, $window, $
 app.controller('ApprovalCtrl', function ($rootScope, $scope, $http, $window, $filter, $compile,
         authorizationService, approvalService, appconfigService) {
 
-    $scope.canApproval = function () {
-        return authorizationService.canApproval();
-    };
-    if (!$scope.canApproval()) {
+    if (!authorizationService.canApproval()) {
         swal("Error", "You are not allowed to this service!", "error");
         $window.location.replace("index.html");
     }
@@ -1233,7 +1236,7 @@ app.controller('ApprovalCtrl', function ($rootScope, $scope, $http, $window, $fi
         initApprovalDataTable();
         $scope.datatable.clear();
         $scope.undepartedVehicles.forEach(function (item) {
-            
+
             var btn_color = 'btn-info';
             if (item.terminalPass.status === 'APPROVED') {
                 btn_color = 'btn-success';
@@ -1242,8 +1245,8 @@ app.controller('ApprovalCtrl', function ($rootScope, $scope, $http, $window, $fi
                     '   type="button" class="btn ' + btn_color + ' btn-circle"> ' +
                     '   <i class="fa fa fa-pencil"></i> ' +
                     ' </button>';
-            
-            
+
+
             var isPaid = item.terminalPass.receiptNumber ?
                     '<center><i class="fa fa fa-check text-success"> ' + item.terminalPass.receiptNumber + '</center>' :
                     '<center><i class="fa fa fa-times text-danger"></center>';
@@ -1287,10 +1290,7 @@ app.controller('ApprovalCtrl', function ($rootScope, $scope, $http, $window, $fi
 app.controller('DepartureCtrl', function ($rootScope, $scope, $http, $window, $filter, $compile,
         authorizationService, departureService, appconfigService) {
 
-    $scope.canDeparture = function () {
-        return authorizationService.canDeparture();
-    };
-    if (!$scope.canDeparture()) {
+    if (!authorizationService.canDeparture()) {
         swal("Error", "You are not allowed to this service!", "error");
         $window.location.replace("index.html");
     }
@@ -1763,7 +1763,7 @@ app.controller('QuickStatsCtrl', function ($rootScope, $scope, $http, $window, $
     }
     ;
     $scope.refresh = function () {
-        window.location.reload();
+        $window.location.reload(true);
     };
 });
 
@@ -1771,7 +1771,13 @@ app.controller('QuickStatsCtrl', function ($rootScope, $scope, $http, $window, $
 app.controller('ManagementReportCtrl', function ($rootScope, $scope, $http, $window, $filter,
         authorizationService, mgtReportService, appconfigService) {
 
-    //everyone has right to management reports
+    //for managers only
+    if (!authorizationService.canManage()) {
+        swal("Error", "You are not allowed to this service!", "error");
+        $window.location.replace("index.html");
+    }
+    ;
+
 
     initVars();
     //initManagementReportDataTable();
@@ -1894,7 +1900,7 @@ app.controller('ManagementReportCtrl', function ($rootScope, $scope, $http, $win
                 });
     }
     ;
-    
+
     $scope.xTabByTripTypeByTripClass = function () {
 
         swapDates();
@@ -1911,7 +1917,7 @@ app.controller('ManagementReportCtrl', function ($rootScope, $scope, $http, $win
                 });
     }
     ;
-    
+
     $scope.xTabByTripTypeByTripDestination = function () {
 
         swapDates();
