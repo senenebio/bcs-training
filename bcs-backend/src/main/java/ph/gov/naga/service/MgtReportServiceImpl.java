@@ -24,6 +24,7 @@ import net.sf.dynamicreports.report.builder.crosstab.CrosstabBuilder;
 import net.sf.dynamicreports.report.builder.crosstab.CrosstabColumnGroupBuilder;
 import net.sf.dynamicreports.report.builder.crosstab.CrosstabMeasureBuilder;
 import net.sf.dynamicreports.report.builder.crosstab.CrosstabRowGroupBuilder;
+import net.sf.dynamicreports.report.builder.expression.AbstractComplexExpression;
 import net.sf.dynamicreports.report.builder.group.ColumnGroupBuilder;
 import net.sf.dynamicreports.report.constant.Calculation;
 import net.sf.dynamicreports.report.constant.PageOrientation;
@@ -297,7 +298,8 @@ public class MgtReportServiceImpl implements MgtReportService {
             CrosstabMeasureBuilder<BigDecimal> receiptAmountMeasure = ctab.measure("Amout Paid", "receiptAmount", BigDecimal.class, Calculation.SUM);
 
             CrosstabBuilder crosstab = ctab.crosstab()
-                    .setDataPreSorted(true)
+                    //http://www.dynamicreports.org/forum/viewtopic.php?f=1&t=884&p=3019&hilit=row%20sort&sid=b923ad08578ce4025fe5fa5e3949cca8#p3019
+                    //.setDataPreSorted(true)
                     .setCellWidth(110)
                     .headerCell(cmp.text("Depart Date / Trip Type / Bus Company").setStyle(Templates.boldCenteredStyle))
                     .rowGroups(
@@ -315,7 +317,9 @@ public class MgtReportServiceImpl implements MgtReportService {
                         .setTemplate(Templates.reportTemplate)
                         .title(Templates.createTitleComponent("XTab By Trip Type By Company"))
                         .pageFooter(Templates.footerComponent)
-                        .sortBy(asc(field("busCompany", String.class)), asc(field("departureTime", Date.class)))
+                        //.sortBy(asc(field("departureTime", Date.class)),
+                        //        asc(field("busCompany", String.class)),
+                        //        asc(field("tripType", String.class)))
                         .setDataSource(ds)
                         .summary(crosstab)
                         .toXls(os);
@@ -354,7 +358,8 @@ public class MgtReportServiceImpl implements MgtReportService {
             CrosstabMeasureBuilder<BigDecimal> receiptAmountMeasure = ctab.measure("Amout Paid", "receiptAmount", BigDecimal.class, Calculation.SUM);
 
             CrosstabBuilder crosstab = ctab.crosstab()
-                    .setDataPreSorted(true)
+                    //http://www.dynamicreports.org/forum/viewtopic.php?f=1&t=884&p=3019&hilit=row%20sort&sid=b923ad08578ce4025fe5fa5e3949cca8#p3019
+                    //.setDataPreSorted(true)
                     .setCellWidth(110)
                     .headerCell(cmp.text("Depart Date / Trip Type / Trip Class").setStyle(Templates.boldCenteredStyle))
                     .rowGroups(
@@ -366,13 +371,14 @@ public class MgtReportServiceImpl implements MgtReportService {
 
             try (ByteArrayOutputStream os = new ByteArrayOutputStream()) {
                 report()
-                        .fields(field("id", Long.class), field("tripType", String.class), 
+                        .fields(field("id", Long.class), field("tripType", String.class),
                                 field("tripClass", String.class), field("departureTime", Date.class))
                         .setPageFormat(PageType.A4, PageOrientation.LANDSCAPE)
                         .setTemplate(Templates.reportTemplate)
                         .title(Templates.createTitleComponent("XTab By Trip Type By Class"))
                         .pageFooter(Templates.footerComponent)
-                        .sortBy(asc(field("tripClass", String.class)), asc(field("departureTime", Date.class)))
+                        //.sortBy(asc(field("tripClass", String.class)), 
+                        //        asc(field("departureTime", Date.class)))
                         .setDataSource(ds)
                         .summary(crosstab)
                         .toXls(os);
@@ -384,8 +390,7 @@ public class MgtReportServiceImpl implements MgtReportService {
 
         return null;
     }
-    
-    
+
     @Override
     public byte[] xTabByTripTypeByTripCoverage(Date startDate, Date endDate) {
 
@@ -412,7 +417,8 @@ public class MgtReportServiceImpl implements MgtReportService {
             CrosstabMeasureBuilder<BigDecimal> receiptAmountMeasure = ctab.measure("Amout Paid", "receiptAmount", BigDecimal.class, Calculation.SUM);
 
             CrosstabBuilder crosstab = ctab.crosstab()
-                    .setDataPreSorted(true)
+                    //http://www.dynamicreports.org/forum/viewtopic.php?f=1&t=884&p=3019&hilit=row%20sort&sid=b923ad08578ce4025fe5fa5e3949cca8#p3019
+                    //.setDataPreSorted(true)
                     .setCellWidth(110)
                     .headerCell(cmp.text("Depart Date / Trip Type / Trip Coverage").setStyle(Templates.boldCenteredStyle))
                     .rowGroups(
@@ -424,13 +430,14 @@ public class MgtReportServiceImpl implements MgtReportService {
 
             try (ByteArrayOutputStream os = new ByteArrayOutputStream()) {
                 report()
-                        .fields(field("id", Long.class), field("tripType", String.class), 
+                        .fields(field("id", Long.class), field("tripType", String.class),
                                 field("tripCoverage", String.class), field("departureTime", Date.class))
                         .setPageFormat(PageType.A4, PageOrientation.LANDSCAPE)
                         .setTemplate(Templates.reportTemplate)
                         .title(Templates.createTitleComponent("XTab By Trip Type By Coverage"))
                         .pageFooter(Templates.footerComponent)
-                        .sortBy(asc(field("tripCoverage", String.class)), asc(field("departureTime", Date.class)))
+                        //.sortBy(asc(field("tripCoverage", String.class)),
+                        //        asc(field("departureTime", Date.class)))
                         .setDataSource(ds)
                         .summary(crosstab)
                         .toXls(os);
@@ -442,8 +449,7 @@ public class MgtReportServiceImpl implements MgtReportService {
 
         return null;
     }
-    
-    
+
     @Override
     public byte[] xTabByTripTypeByTripDestination(Date startDate, Date endDate) {
 
@@ -451,8 +457,16 @@ public class MgtReportServiceImpl implements MgtReportService {
         List<TerminalPass> tps = basicReportService.findDeparturesBetweenDates(startDate, endDate);
         logger.info("Found {} rows.", tps.size());
         if (!tps.isEmpty()) {
+            //data cleanup
+            tps.forEach(tp -> {
+                if (tp.getTripDestination() == null || tp.getTripDestination().trim().isEmpty()) {
+                    tp.setTripDestination("UNKNOWN");
+                } else {
+                    tp.setTripDestination(tp.getTripDestination().trim());
+                }
+            });
 
-            //set uo data source 
+            //set up data source 
             JRDataSource ds = new JRBeanCollectionDataSource(tps);
 
             //row(s)
@@ -470,7 +484,8 @@ public class MgtReportServiceImpl implements MgtReportService {
             CrosstabMeasureBuilder<BigDecimal> receiptAmountMeasure = ctab.measure("Amout Paid", "receiptAmount", BigDecimal.class, Calculation.SUM);
 
             CrosstabBuilder crosstab = ctab.crosstab()
-                    .setDataPreSorted(true)
+                    //http://www.dynamicreports.org/forum/viewtopic.php?f=1&t=884&p=3019&hilit=row%20sort&sid=b923ad08578ce4025fe5fa5e3949cca8#p3019
+                    //.setDataPreSorted(true)
                     .setCellWidth(110)
                     .headerCell(cmp.text("Depart Date / Trip Type / Trip Destination").setStyle(Templates.boldCenteredStyle))
                     .rowGroups(
@@ -482,13 +497,15 @@ public class MgtReportServiceImpl implements MgtReportService {
 
             try (ByteArrayOutputStream os = new ByteArrayOutputStream()) {
                 report()
-                        .fields(field("id", Long.class), field("tripType", String.class), 
+                        .fields(field("id", Long.class), field("tripType", String.class),
                                 field("tripDestination", String.class), field("departureTime", Date.class))
                         .setPageFormat(PageType.A4, PageOrientation.LANDSCAPE)
                         .setTemplate(Templates.reportTemplate)
                         .title(Templates.createTitleComponent("XTab By Trip Type By Destination"))
                         .pageFooter(Templates.footerComponent)
-                        .sortBy(asc(field("tripDestination", String.class)), asc(field("departureTime", Date.class)))
+                        //.sortBy(asc(field("departureTime", Date.class)),
+                        //        asc(field("tripDestination", String.class)),
+                        //        asc(field("tripType", String.class)))
                         .setDataSource(ds)
                         .summary(crosstab)
                         .toXls(os);
@@ -500,15 +517,19 @@ public class MgtReportServiceImpl implements MgtReportService {
 
         return null;
     }
-    
 
-    private class DepartureYearMonthExpression extends AbstractSimpleExpression<String> {
+    private class DepartureYearMonthExpression extends AbstractComplexExpression<String> {
 
+        //http://www.dynamicreports.org/forum/viewtopic.php?f=1&t=884&p=3019&hilit=row%20sort&sid=b923ad08578ce4025fe5fa5e3949cca8#p3019
         private static final long serialVersionUID = 1L;
 
+        public DepartureYearMonthExpression() {
+            addExpression(field("departureTime", Date.class));            
+        }
+
         @Override
-        public String evaluate(ReportParameters reportParameters) {
-            SimpleDateFormat sf = new SimpleDateFormat("yyy-MMM");
+        public String evaluate(List<?> values, ReportParameters reportParameters) {
+            SimpleDateFormat sf = new SimpleDateFormat("yyy-MM");
             return sf.format((Date) reportParameters.getValue("departureTime"));
         }
 

@@ -43,7 +43,7 @@ app.controller('MainCtrl', ['$rootScope', '$scope', '$http', '$window', '$timeou
 
         $scope.canDeparture = authorizationService.canDeparture();
 
-        
+
     }
 ]);
 
@@ -1671,38 +1671,31 @@ app.controller('QuickStatsCtrl', function ($rootScope, $scope, $http, $window, $
         authorizationService, reportService, assessmentService, appconfigService) {
 
     //everyone has right to Stats dashboard
-
     $scope.dateOfInterest = moment({});
     $scope.rightNow = $scope.dateOfInterest.format("ddd YYYY-MM-DD hh:mm:ss a");
-    $scope.statsArrival = '?';
-    $scope.statsDeparture = '?';
-    $scope.statsStillInside = '?';
+    $scope.statsArrival = '0';
+    $scope.statsDeparture = '0';
+    $scope.statsStillInside = '0';
     var start = $scope.dateOfInterest.startOf('day').format('YYYY-MM-DD HH:mm:ss');
     var end = $scope.dateOfInterest.endOf('day').format('YYYY-MM-DD HH:mm:ss');
-    //find arrivals
-    reportService.findArrivalBetweenDates(start, end)
-            .then(function (response) {
-                $scope.statsArrival = response.data.length;
-                map_reduce_arrival(response.data);
-            }, function (response) {
 
-            });
-    //find departures
-    reportService.findDepartureBetweenDates(start, end)
-            .then(function (response) {
-                $scope.statsDeparture = response.data.length;
-                map_reduce_departure(response.data);
-                compute_assesment_collection(response.data);
-            }, function (response) {
+    var hours24 = {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0,
+        6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0,
+        12: 0, 13: 0, 14: 0, 15: 0, 16: 0, 17: 0,
+        18: 0, 19: 0, 20: 0, 21: 0, 22: 0, 23: 0
+    };
 
-            });
-    // undeparted
-    assessmentService.findAllUndeparted()
-            .then(function (response) {
-                $scope.statsStillInside = response.data.length;
-            }, function (response) {
-
-            });
+    //initial values for charts    
+    $scope.dataArrival = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    $scope.dataDeparture = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    //combined charts
+    $scope.seriesArrivalDeparture = ['Arrival', 'Departure'];
+    $scope.labelsArrivalDeparture = ['12AM', '1AM', '2AM', '3AM', '4AM', '5AM',
+        '6AM', '7AM', '8AM', '9AM', '10AM', '11AM',
+        '12PM', '1PM', '2PM', '3PM', '4PM', '5PM',
+        '6PM', '7PM', '8PM', '9PM', '10PM', '11PM'];
+    $scope.dataArrivalDeparture = [[], []];
+    
     // for the bar chart  
     $scope.options = {
         scales: {
@@ -1713,15 +1706,47 @@ app.controller('QuickStatsCtrl', function ($rootScope, $scope, $http, $window, $
                 }]
         }
     };
+
+    function loadData() {
+        //find arrivals
+        reportService.findArrivalBetweenDates(start, end)
+                .then(function (response) {
+                    $scope.statsArrival = response.data.length;
+                    map_reduce_arrival(response.data);
+                }, function (response) {
+
+                });
+        //find departures
+        reportService.findDepartureBetweenDates(start, end)
+                .then(function (response) {
+                    $scope.statsDeparture = response.data.length;
+                    map_reduce_departure(response.data);
+                    compute_assesment_collection(response.data);
+                }, function (response) {
+
+                });
+        // undeparted
+        assessmentService.findAllUndeparted()
+                .then(function (response) {
+                    $scope.statsStillInside = response.data.length;
+                }, function (response) {
+
+                });
+    };
+    
+    //refresh data
+    loadData();
+
     function map_reduce_arrival(data) {
 
         var temp = data.map(function (element) {
             return new Date(element.arrivalTime).getHours();
         });
+        var init = angular.copy(hours24);
         temp = temp.reduce(function (r, k) {
             r[k] = (1 + r[k]) || 1;
             return r;
-        }, {});
+        }, init);
         $scope.labelsArrival = Object.keys(temp).map(function (element) {
             return element + ":00";
         });
@@ -1730,6 +1755,8 @@ app.controller('QuickStatsCtrl', function ($rootScope, $scope, $http, $window, $
         $scope.dataArrival = [
             Object.values(temp)
         ];
+        //update arrival
+        $scope.dataArrivalDeparture[0] = $scope.dataArrival[0];
     }
     ;
     function map_reduce_departure(data) {
@@ -1737,10 +1764,11 @@ app.controller('QuickStatsCtrl', function ($rootScope, $scope, $http, $window, $
         var temp = data.map(function (element) {
             return new Date(element.departureTime).getHours();
         });
+        var init = angular.copy(hours24);
         temp = temp.reduce(function (r, k) {
             r[k] = (1 + r[k]) || 1;
             return r;
-        }, {});
+        }, init);
         $scope.labelsDeparture = Object.keys(temp).map(function (element) {
             return element + ":00";
         });
@@ -1748,6 +1776,8 @@ app.controller('QuickStatsCtrl', function ($rootScope, $scope, $http, $window, $
         $scope.dataDeparture = [
             Object.values(temp)
         ];
+        //update departure
+        $scope.dataArrivalDeparture[1] = $scope.dataDeparture[0];
     }
     ;
     $scope.statsAssessment = 0.00;
@@ -1763,8 +1793,13 @@ app.controller('QuickStatsCtrl', function ($rootScope, $scope, $http, $window, $
     }
     ;
     $scope.refresh = function () {
-        $window.location.reload(true);
+        loadData();
     };
+
+    //reload every 1 minute(s)
+    $window.setInterval(function () {
+        $scope.refresh();
+    }, 60 * 1000);
 });
 
 //Management Report Controller
@@ -1772,7 +1807,7 @@ app.controller('ManagementReportCtrl', function ($rootScope, $scope, $http, $win
         authorizationService, mgtReportService, appconfigService) {
 
     //for managers only
-    if (!authorizationService.canManage()) {
+    if (!authorizationService.canApproval()) {
         swal("Error", "You are not allowed to this service!", "error");
         $window.location.replace("index.html");
     }

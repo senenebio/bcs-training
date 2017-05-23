@@ -5,12 +5,12 @@
 
     <div class="row">
         <h4 class="page-header">Quick Stats {{rightNow}}</h3>
-        <div class="text-right">
-            <button ng-click="refresh()" type="button" class="btn btn-primary">				
-                <i> Refresh </i><i class="fa fa-refresh "></i> 
-            </button>
-        </div>
-        
+            <div class="text-right">
+                <button ng-click="refresh()" type="button" class="btn btn-primary">				
+                    <i> Refresh </i><i class="fa fa-refresh "></i> 
+                </button>
+            </div>
+
     </div>
 
     <div class="row">
@@ -80,6 +80,19 @@
 
     <div class="row">
         <div class="col-xs-6">
+            Hourly Arrival/Departure
+            <canvas id="barArrivalDeparture" 
+                    class="chart chart-bar"
+                    chart-options="options"
+                    chart-data="dataArrivalDeparture" 
+                    chart-labels="labelsArrivalDeparture" 
+                    chart-series="seriesArrivalDeparture" >
+            </canvas>
+        </div>
+    </div>
+    <!-- 
+    <div class="row">
+        <div class="col-xs-6">
             Hourly Arrival
             <canvas id="barArrival" 
                     class="chart chart-bar"
@@ -100,12 +113,13 @@
             </canvas>
         </div>
     </div>
+    -->
     <!-- /.row -->
 
 
     <div class="row">
 
-        <div class="col-sm-4">
+        <div class="col-sm-3">
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <div class="row">
@@ -125,7 +139,7 @@
             </div>
         </div>
 
-        <div class="col-sm-4">
+        <div class="col-sm-3">
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <div class="row">
